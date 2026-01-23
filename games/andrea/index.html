@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACCÈS SÉCURISÉ - AGENCE</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Specific login styles */
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .login-container {
+            width: 400px;
+            padding: 3rem;
+            background: rgba(10, 10, 10, 0.95);
+            border: 2px solid var(--color-accent, #c00);
+            box-shadow: 0 0 20px rgba(200, 0, 0, 0.2);
+            text-align: center;
+            position: relative;
+        }
+
+        .login-container::before {
+            content: "TOP SECRET";
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #000;
+            padding: 0 10px;
+            color: var(--color-accent, #c00);
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .scan-line {
+            height: 2px;
+            width: 100%;
+            background: #c00;
+            position: absolute;
+            top: 0;
+            left: 0;
+            animation: scan 3s infinite linear;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        @keyframes scan {
+            0% {
+                top: 0;
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                top: 100%;
+                opacity: 0;
+            }
+        }
+
+        .agent-info {
+            margin-bottom: 2rem;
+            color: #fff;
+            font-family: 'Courier New', monospace;
+            border-bottom: 1px solid #333;
+            padding-bottom: 1rem;
+        }
+
+        .agent-info h3 {
+            margin: 0;
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        .agent-info p {
+            margin: 0.5rem 0 0;
+            font-size: 1.2rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 1rem;
+            background: #111;
+            border: 1px solid #444;
+            color: #fff;
+            text-align: center;
+            text-transform: uppercase;
+            font-family: inherit;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #c00;
+            border: none;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background: #900;
+        }
+
+        #error-msg {
+            color: #c00;
+            font-size: 0.8rem;
+            height: 1.2rem;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-container">
+        <div class="scan-line"></div>
+        <div class="agent-info">
+            <h3>IDENTITÉ DÉTECTÉE</h3>
+            <p id="agent-name">RECHERCHE...</p>
+        </div>
+
+        <div class="login-form">
+            <input type="text" id="agent-code" placeholder="CHOISISSEZ VOTRE NOM DE CODE" autofocus>
+            <button id="btn-access">INITIALISER MISSION</button>
+            <div id="error-msg"></div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Get user from Hub Session
+            const user = JSON.parse(localStorage.getItem('jeuxJanvier_user'));
+            if (!user) {
+                location.href = '../../index.html';
+                return;
+            }
+
+            // Display user identity
+            document.getElementById('agent-name').textContent = user.fullName.toUpperCase();
+
+            // Auto-set agent code to firstName (no need for manual input)
+            localStorage.setItem('jeuxJanvier_agentName', user.firstName.toUpperCase());
+
+            // Show confirmation and redirect
+            document.getElementById('error-msg').style.color = '#4CAF50';
+            document.getElementById('error-msg').textContent = "IDENTITÉ CONFIRMÉE. ACCÈS AUTORISÉ.";
+
+            // Hide input form
+            document.querySelector('.login-form').innerHTML = `
+                <p style="color: #4CAF50; font-size: 1.2rem;">✅ Bienvenue Agent ${user.firstName.toUpperCase()}</p>
+                <p style="color: #888; margin-top: 1rem;">Chargement de la mission...</p>
+            `;
+
+            // Auto-redirect to day1 after brief display
+            setTimeout(() => {
+                window.location.href = 'day1.html';
+            }, 1500);
+        });
+    </script>
+</body>
+
+</html>
