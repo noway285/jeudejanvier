@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JEUX DE JANVIER</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>JEUX DE JANVIER</h1>
+
+        <!-- LOGIN SCREEN -->
+        <div id="login-screen" class="login-panel">
+            <div class="input-group">
+                <label for="firstname">PRÉNOM</label>
+                <input type="text" id="firstname" autocomplete="off" placeholder="Ex: Matthias">
+            </div>
+            <div class="input-group">
+                <label for="lastname">NOM</label>
+                <input type="text" id="lastname" autocomplete="off" placeholder="Ex: Lebelge">
+            </div>
+            <div id="login-error" class="error-msg"></div>
+            <button id="login-btn" class="btn-start">COMMENCER</button>
+        </div>
+
+        <!-- DASHBOARD (Hidden) -->
+        <div id="dashboard" class="dashboard">
+            <div class="welcome-text">
+                AGENT <span id="player-name-display" style="color: var(--color-accent); font-weight: bold;"></span>
+                CONNECTÉ.
+            </div>
+
+            <div class="game-cards">
+                <!-- LINDA -->
+                <div class="card linda" onclick="askLindaPassword()">
+                    <div class="card-img"></div>
+                    <div class="status">DISPONIBLE</div>
+                    <div class="card-content">
+                        <h2>LINDA</h2>
+                        <p>Opération délicate.<br>attendre le jour 3</p>
+                    </div>
+                </div>
+
+                <!-- ANDREA -->
+                <div class="card andrea" onclick="startGame('andrea')">
+                    <div class="card-img"></div>
+                    <div class="status">ENQUÊTE EN COURS</div>
+                    <div class="card-content">
+                        <h2>ANDRÉA</h2>
+                        <p>Dossier Classifié.<br>Alibi à construire.</p>
+                    </div>
+                </div>
+
+                <!-- NOÉ -->
+                <div class="card noe" onclick="askNoeAlias()">
+                    <div class="card-img"></div>
+                    <div class="status">CONFIDENTIEL</div>
+                    <div class="card-content">
+                        <h2>NOÉ</h2>
+                        <p>Identité numérique.<br>attendre le jour 2</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="admin-trigger" onclick="openAdmin()">🔒</div>
+
+    <!-- ADMIN DASHBOARD OVERLAY -->
+    <div id="admin-dashboard" class="admin-overlay hidden">
+        <div class="admin-panel">
+            <header class="admin-header">
+                <h2>CONSOLE ORGANISATEUR</h2>
+                <button id="close-admin" class="btn-icon">✖</button>
+            </header>
+
+            <div class="admin-controls">
+                <div class="admin-tabs">
+                    <button class="tab-btn active" onclick="switchAdminTab('maboul')">DOCTEUR MABOUL</button>
+                    <button class="tab-btn" onclick="switchAdminTab('andrea')">ENQUÊTE ANDRÉA</button>
+                </div>
+                <button onclick="refreshAdminScores()" class="btn-refresh">🔄 ACTUALISER</button>
+            </div>
+
+            <div id="admin-view-maboul" class="admin-content active">
+                <h3>Classement Maboul</h3>
+                <div class="table-container">
+                    <table id="table-maboul">
+                        <thead>
+                            <tr>
+                                <th>Rang</th>
+                                <th>Joueur</th>
+                                <th>Score</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody><!-- JS populated --></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="admin-view-andrea" class="admin-content">
+                <h3>Progression Enquête Andréa</h3>
+                <div class="table-container">
+                    <table id="table-andrea">
+                        <thead>
+                            <tr>
+                                <th>Rang</th>
+                                <th>Agent</th>
+                                <th>Identité Réelle</th>
+                                <th>Temps Total</th>
+                                <th>Pénalités</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody><!-- JS populated --></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+    <script src="admin.js"></script> <!-- New Admin Logic -->
+
+    <!-- LINDA PASSWORD OVERLAY -->
+<div id="linda-overlay" class="linda-overlay hidden">
+    <div class="linda-panel">
+        <h2>ACCÈS SÉCURISÉ</h2>
+        <p>Mot de passe requis pour accéder au dossier LINDA</p>
+
+        <input 
+            type="password" 
+            id="linda-password" 
+            placeholder="Mot de passe"
+            autocomplete="off"
+        >
+
+        <div id="linda-error" class="error-msg"></div>
+
+        <div class="linda-actions">
+            <button onclick="checkLindaPassword()" class="btn-start">
+                VALIDER
+            </button>
+            <button onclick="closeLindaOverlay()" class="btn-cancel">
+                ANNULER
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- NOÉ ALIAS OVERLAY -->
+<div id="noe-overlay" class="linda-overlay hidden">
+    <div class="linda-panel">
+        <h2>ACCÈS NOÉ</h2>
+        <p>Entrez le faux nom utilisé sur son compte Instagram</p>
+
+        <input
+            type="text"
+            id="noe-alias-input"
+            placeholder="Alias Instagram"
+            autocomplete="off"
+        >
+
+        <div id="noe-error" class="error-msg"></div>
+
+        <div class="linda-actions">
+            <button onclick="checkNoeAlias()" class="btn-start">
+                VALIDER
+            </button>
+            <button onclick="closeNoeOverlay()" class="btn-cancel">
+                ANNULER
+            </button>
+        </div>
+    </div>
+</div>
+
+
+</body>
+
+</html>
