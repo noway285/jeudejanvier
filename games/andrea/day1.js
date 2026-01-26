@@ -198,7 +198,7 @@ function checkEnigma1() {
     if (input === SOLUTIONS.enigma1) {
         nextStep('step-enigma2');
     } else {
-        addPenalty(600); // 10 minutes
+        addPenalty(40); // 10 minutes
         showError('code-enigma1', 'ACCÈS REFUSÉ. Essayez encore.');
     }
 }
@@ -381,3 +381,4 @@ function saveScore() {
         .then(result => console.log('✅ Score saved:', result))
         .catch(err => console.warn('⚠️ Score save error:', err));
 }
+
