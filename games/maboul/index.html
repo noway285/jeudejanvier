@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description"
+        content="Docteur Maboul - Jeu de précision chirurgicale en ligne. Testez votre adresse et affrontez d'autres joueurs !">
+    <meta name="theme-color" content="#E53935">
+    <title>🏥 Docteur Maboul - Jeu de Précision</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Flash overlay for buzz effect -->
+    <div id="flash-overlay" class="flash-overlay hidden"></div>
+
+    <!-- Welcome Screen (now just loading/leaderboard) -->
+    <div id="welcome-screen" class="screen active">
+        <div class="welcome-container">
+            <div class="logo-container">
+                <div class="logo-icon">🏥</div>
+                <h1 class="title">Docteur Maboul</h1>
+                <p class="subtitle">Jeu de Précision Chirurgicale</p>
+            </div>
+
+            <div id="loading-message" class="loading-message">
+                <p>⏳ Vérification de la session...</p>
+            </div>
+
+            <div class="instructions">
+                <h3>📋 Instructions</h3>
+                <ul>
+                    <li>🎯 Extrayez les objets des cavités</li>
+                    <li>⚠️ Ne touchez pas les bords ! (3 essais max)</li>
+                    <li>⭐ Gagnez des points à chaque extraction</li>
+                    <li>⏱️ Plus vite = Plus de points bonus !</li>
+                </ul>
+            </div>
+
+            <!-- Leaderboard Section -->
+            <div id="leaderboard-section" class="leaderboard-section">
+                <h2 class="leaderboard-title" id="admin-trigger">🏆 Top 10 Chirurgiens</h2>
+                <div id="leaderboard" class="leaderboard">
+                    <div class="loading-scores">Chargement des scores...</div>
+                </div>
+                <!-- Hidden Admin Button -->
+                <button id="admin-btn" class="admin-btn">🔐 Mode Organisateur</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Screen -->
+    <div id="game-screen" class="screen">
+        <!-- Collision Indicator (flashes on collision) -->
+        <div id="collision-indicator" class="collision-indicator hidden">
+            <span class="collision-icon">⚡</span>
+            <span class="collision-text">COLLISION!</span>
+        </div>
+
+        <div class="game-header">
+            <div class="header-left">
+                <div class="money-container">
+                    <span class="money-icon">⭐</span>
+                    <span id="money" class="money-display">0 pts</span>
+                </div>
+                <button id="back-btn" class="btn-mini" title="Retour au menu">🏠</button>
+            </div>
+            <div class="header-right">
+                <div class="timer-container">
+                    <span class="timer-icon">⏱️</span>
+                    <span id="timer">00.000s</span>
+                </div>
+                <button id="reset-btn" class="btn-mini" title="Recommencer">🔄</button>
+            </div>
+        </div>
+
+        <div class="player-info">
+            <span id="display-name">Dr. ???</span>
+            <span id="attempts-display" class="attempts-display">Essais: 0/3</span>
+            <span id="current-object" class="current-object"></span>
+        </div>
+
+        <div class="board-container">
+            <!-- The nose that flashes red -->
+            <div id="nose-flash" class="nose-flash"></div>
+
+            <div class="canvas-container">
+                <canvas id="game-canvas"></canvas>
+                <div id="game-message" class="game-message hidden"></div>
+            </div>
+        </div>
+
+        <div id="object-selection" class="object-selection hidden">
+            <h3>Sélectionnez un objet à extraire :</h3>
+            <div id="objects-grid" class="objects-grid"></div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="success-modal" class="modal hidden">
+        <div class="modal-content success">
+            <div class="modal-icon">🎉</div>
+            <h2>Extraction Réussie !</h2>
+            <p class="reward-message" id="reward-message">+200€</p>
+            <p class="final-time" id="final-time">Temps: 00.000s</p>
+            <div class="modal-buttons">
+                <button id="next-object-btn" class="btn-primary btn-3d">
+                    <span>➡️</span> Objet Suivant
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Over Modal -->
+    <div id="gameover-modal" class="modal hidden">
+        <div class="modal-content gameover">
+            <div class="modal-icon">🏆</div>
+            <h2>Opération Terminée !</h2>
+            <p class="final-score" id="final-score">Score Final: 1500€</p>
+            <p class="rank-message" id="rank-message"></p>
+            <div class="modal-buttons">
+                <button id="play-again-btn" class="btn-primary btn-3d">
+                    <span>🔄</span> Rejouer
+                </button>
+                <button id="view-scores-btn" class="btn-secondary btn-3d">
+                    <span>🏆</span> Classement
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Object Failed Modal -->
+    <div id="failed-modal" class="modal hidden">
+        <div class="modal-content failed">
+            <div class="modal-icon">❌</div>
+            <h2>Objet Perdu !</h2>
+            <p id="failed-message">Vous avez utilisé vos 3 essais.</p>
+            <div class="modal-buttons">
+                <button id="next-after-fail-btn" class="btn-primary btn-3d">
+                    <span>➡️</span> Objet Suivant
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Code Modal -->
+    <div id="admin-code-modal" class="modal hidden">
+        <div class="modal-content admin-code">
+            <div class="modal-icon">🔐</div>
+            <h2>Code Organisateur</h2>
+            <div class="input-container">
+                <input type="password" id="admin-code-input" placeholder="Entrez le code..." autocomplete="off">
+            </div>
+            <div id="admin-code-error" class="error-message hidden">Code incorrect !</div>
+            <div class="modal-buttons">
+                <button id="submit-admin-code" class="btn-primary btn-3d">
+                    <span>✅</span> Valider
+                </button>
+                <button id="cancel-admin-code" class="btn-secondary btn-3d">
+                    <span>❌</span> Annuler
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Scores Modal -->
+    <div id="admin-modal" class="modal hidden">
+        <div class="modal-content admin">
+            <div class="modal-icon">📊</div>
+            <h2>Mode Organisateur</h2>
+            <div id="admin-scores" class="admin-scores">
+                <!-- All scores will be displayed here -->
+            </div>
+            <button id="close-admin-btn" class="btn-secondary btn-3d">
+                <span>❌</span> Fermer
+            </button>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <script src="../../firebase-config.js"></script>
+
+    <!-- Game Logic -->
+    <script src="game.js"></script>
+</body>
+
+</html>
