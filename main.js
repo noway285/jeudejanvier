@@ -135,7 +135,7 @@ function checkLindaPassword() {
     }
 }
 
-const NOE_ALIAS = "noway285"; 
+const NOE_ALIAS = "noway285_"; 
 
 function askNoeAlias() {
     document.getElementById("noe-overlay").classList.remove("hidden");
@@ -160,3 +160,4 @@ function checkNoeAlias() {
 }
 
 // Admin - handled in admin.js
+
