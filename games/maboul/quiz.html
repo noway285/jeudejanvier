@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>👮 Quiz - Qui sont ces policiers ?</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="linda-style.css">
+</head>
+
+<body>
+    <!-- Quiz Screen -->
+    <div id="quiz-screen" class="quiz-container">
+        <div class="quiz-header">
+            <h1>👮 Qui est ce policier ?</h1>
+            <div class="progress-bar">
+                <div id="progress-fill" class="progress-fill" style="width: 0%"></div>
+            </div>
+            <p class="round-indicator">Question <span id="current-round">1</span> / <span id="total-rounds">4</span></p>
+        </div>
+
+        <div class="quiz-content">
+            <div class="person-image-container">
+                <img id="person-image" class="person-image" src="" alt="Qui est-ce ?">
+            </div>
+
+            <p class="question-text">Qui est cette personne ?</p>
+
+            <div id="options-grid" class="options-grid">
+                <!-- Options will be populated by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Screen -->
+    <div id="success-screen" class="result-container" style="display: none;">
+        <div class="result-box success">
+            <div class="result-icon">✅</div>
+            <h2>BRAVO !</h2>
+            <p class="result-message">
+                OK. Je te crois, tu fais partie du personnel de la prison.<br><br>
+                Mais ça ne me prouve pas que tu es <strong>infirmier/e</strong>.<br><br>
+                Pour obtenir ton diplôme d'infirmier, tu vas devoir passer une épreuve...
+            </p>
+            <button id="btn-continue" class="btn-action success">
+                <span>🏥</span> Passer l'épreuve d'infirmier
+            </button>
+        </div>
+    </div>
+
+    <!-- Failure Screen -->
+    <div id="failure-screen" class="result-container" style="display: none;">
+        <div class="result-box failure">
+            <div class="result-icon">❌</div>
+            <h2>ÉCHEC !</h2>
+            <p class="result-message">
+                Je ne crois pas que tu fasses réellement partie du personnel de la prison...<br><br>
+                Tu dois reconnaître <strong>les 5 personnes</strong> pour entrer !
+            </p>
+            <button id="btn-retry" class="btn-action">
+                <span>🔄</span> RECOMMENCER
+            </button>
+        </div>
+    </div>
+
+    <script src="quiz-data.js"></script>
+    <script src="quiz.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔒 Mission Linda - Infiltration Prison</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="linda-style.css">
+</head>
+
+<body>
+    <div class="intro-container">
+        <div class="prison-bars"></div>
+
+        <div class="intro-content">
+            <div class="phone-icon">📱</div>
+            <h1>MISSION LINDA</h1>
+            <h2>🔒 Opération Évasion</h2>
+
+            <div class="story-box">
+                <p class="story-text">
+                    <strong>Noé</strong> a réussi à faire passer un téléphone à <strong>Linda</strong> depuis lequel
+                    elle va contacter les membres de l'école pour qu'ils l'aident à s'évader.
+                </p>
+                <p class="story-text">
+                    Pour ses jeux, les membres de la ME devront s'infiltrer dans la prison en se faisant passer pour un
+                    <strong>infirmier</strong> parce qu'elle s'est cassé la cheville...
+                </p>
+                <p class="story-text highlight">
+                    ⚠️ SAUF QUE on ne s'infiltre pas comme ça dans une prison !
+                </p>
+                <p class="story-text">
+                    La première étape sera de <strong>montrer que vous êtes familiers avec le personnel de la
+                        prison</strong>.
+                </p>
+            </div>
+
+            <div class="challenge-box">
+                <div class="challenge-icon">👮</div>
+                <p class="challenge-text">
+                    Fais-tu <strong>réellement</strong> partie du personnel de la prison ?<br>
+                    <span class="highlight-red">Prouve-le ! Qui sont ces policiers ?</span>
+                </p>
+            </div>
+
+            <button id="btn-start" class="btn-start">
+                <span>🚀</span> COMMENCER L'INFILTRATION
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('btn-start').addEventListener('click', () => {
+            window.location.href = 'quiz.html';
+        });
+    </script>
+</body>
+
+</html>
